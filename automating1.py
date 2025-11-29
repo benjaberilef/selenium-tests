@@ -1,76 +1,52 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.ui import Select
 from time import sleep
 
-driver = webdriver.Chrome()
-driver.get("https://rahulshettyacademy.com/AutomationPractice/")
+# Initialize Chrome driver
+driver = webdriver.Chrome()  # Make sure chromedriver is in your PATH
 
 
-name_field = driver.find_element(By.ID, "name")
-alert_btn = driver.find_element(By.ID, "alertbtn")
-confirm_btn = driver.find_element(By.ID, "confirmbtn")
+# Open the target page
+driver.get("https://rahulshettyacademy.com/AutomationPractice/")  # Replace with your page URL
+sleep(2)  # wait for page to load
 
-name_field.clear()
-name_field.send_keys("Samar")
-alert_btn.click()
+# Your original dropdown code
+dropdown_element = driver.find_element(By.ID, "dropdown-class-example")
+dropdown = Select(dropdown_element)
+
+dropdown.select_by_visible_text("Option1")
 sleep(1)
-alert = Alert(driver)
-actual_text = alert.text
-expected_text = "Hello Samar, share this practice page and share your knowledge"
-if expected_text == actual_text:
-    print("ALERT AVEC NOM : PASS")
+selected_option = dropdown.first_selected_option.text
+if selected_option == "Option1":
+    print("TC-R1 : PASS")
 else:
-    print("ALERT AVEC NOM : FAIL")
-    print("Attendu :", expected_text)
-    print("Obtenu  :", actual_text)
-alert.accept()
-driver.save_screenshot("alert_avec_nom.png")
+    print("TC-R1 : FAIL")
+    print("Attendu :", "Option1")
+    print("Obtenu  :", selected_option)
+driver.save_screenshot("dropdown_option1.png")
 
-name_field.clear()
-name_field.send_keys("Samar")
-confirm_btn.click()
+dropdown.select_by_visible_text("Option2")
 sleep(1)
-alert = Alert(driver)
-actual_text = alert.text
-expected_text = "Hello Samar, Are you sure you want to confirm?"
-if expected_text == actual_text:
-    print("CONFIRM AVEC NOM : PASS")
+selected_option = dropdown.first_selected_option.text
+if selected_option == "Option2":
+    print("TC-R2 : PASS")
 else:
-    print("CONFIRM AVEC NOM : FAIL")
-    print("Attendu :", expected_text)
-    print("Obtenu  :", actual_text)
-alert.accept()
-driver.save_screenshot("confirm_avec_nom.png")
+    print("TC-R2 : FAIL")
+    print("Attendu :", "Option2")
+    print("Obtenu  :", selected_option)
+driver.save_screenshot("dropdown_option2.png")
 
-name_field.clear()
-alert_btn.click()
+dropdown.select_by_visible_text("Option3")
 sleep(1)
-alert = Alert(driver)
-actual_text = alert.text
-expected_text = "Le champ est vide, veuillez saisir un nom"
-if expected_text == actual_text:
-    print("ALERT CHAMP VIDE : PASS")
+selected_option = dropdown.first_selected_option.text
+if selected_option == "Option3":
+    print("TC-R3 : PASS")
 else:
-    print("ALERT CHAMP VIDE : FAIL")
-    print("Attendu :", expected_text)
-    print("Obtenu  :", actual_text)
-alert.accept()
-driver.save_screenshot("alert_champ_vide.png")
+    print("TC-R3 : FAIL")
+    print("Attendu :", "Option3")
+    print("Obtenu  :", selected_option)
+driver.save_screenshot("dropdown_option3.png")
 
-name_field.clear()
-confirm_btn.click()
-sleep(1)
-alert = Alert(driver)
-actual_text = alert.text
-expected_text = "Le champ est vide, veuillez saisir un nom"
-if expected_text == actual_text:
-    print("CONFIRM CHAMP VIDE : PASS")
-else:
-    print("CONFIRM CHAMP VIDE : FAIL")
-    print("Attendu :", expected_text)
-    print("Obtenu  :", actual_text)
-alert.accept()
-driver.save_screenshot("confirm_champ_vide.png")
-
+# Close the browser
 driver.quit()
